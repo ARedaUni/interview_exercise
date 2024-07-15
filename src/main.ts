@@ -6,7 +6,7 @@ import { join } from 'path';
 import { loadUbEnv } from './configuration/configuration';
 
 async function bootstrap() {
-  loadUbEnv('UB_CHAT_ENV_INJECT');
+  loadUbEnv('UB_CHAT_ENV_INJECT',);
   const app = await NestFactory.create(AppModule);
 
   app.enableShutdownHooks();

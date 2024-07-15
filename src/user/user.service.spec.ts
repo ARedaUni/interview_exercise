@@ -6,6 +6,7 @@ import {
   ConfigurationManager,
   MockedConfigurationManager,
 } from '../configuration/configuration-manager';
+import { getEnv } from '../configuration/configuration';
 
 const userObject = {
   id: '5fe0cce861c8ea54018385ae',
@@ -20,7 +21,8 @@ class MockedUserCacheManagerService {
   }
 }
 
-const user_service = process.env.USER_SERVICE_URL ?? '';
+const user_service = process.env.USER_SERVICE_URL ?? 'http://localhost:1080'
+  
 
 describe('UserService', () => {
   let service: IUserService;
