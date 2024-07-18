@@ -1,4 +1,4 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { forwardRef, HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import {
   ChatMessage,
   PaginatedChatMessages,
@@ -13,6 +13,7 @@ import {
   ResolveMessageDto,
   ReactionDto,
   PollOptionDto,
+  Tag,
 } from './models/message.dto';
 import { MessageData } from './message.data';
 import { IAuthenticatedUser } from '../authentication/jwt.strategy';
@@ -61,6 +62,7 @@ export interface IMessageLogic {
     resolveMessageDto: ResolveMessageDto,
     authenticatedUser?: IAuthenticatedUser,
   ): Promise<ChatMessage>;
+  updateTags(messageId: ObjectID, tags: Tag[]): Promise<MessageDto>;
   getMessagesByConversation(
     messagesFilterInput: MessagesFilterInput,
   ): Promise<MessageGroupedByConversationOutput[]>;
@@ -366,6 +368,21 @@ export class MessageLogic implements IMessageLogic {
     );
 
     return message;
+  }
+
+  async updateTags(
+    messageId: ObjectID,
+    tags: Tag[],
+  ): Promise<MessageDto> {
+    try {
+      const updatedRecord = await this.messageData.updateTags(
+        messageId,
+        tags,
+      );
+      return updatedRecord;
+    } catch (error) {
+      throw new HttpException('Message not found', HttpStatus.NOT_FOUND);
+    }
   }
 
   async resolve(

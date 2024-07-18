@@ -5,11 +5,24 @@ import {
   ObjectType,
   registerEnumType,
 } from '@nestjs/graphql';
+import { ApiProperty } from '@nestjs/swagger';
 import { ObjectID } from 'mongodb';
 
 export enum GifType {
   Gif = 'gif',
   Sticker = 'sticker',
+}
+
+export enum TagType {
+  subTopic = 'subTopic',
+}
+
+export class Tag {
+  @ApiProperty({ type: String })
+  id: string;
+
+  @ApiProperty({ enum: TagType })
+  type: TagType;
 }
 
 registerEnumType(GifType, {
@@ -106,6 +119,9 @@ export class RichContentDto {
 
   @Field(() => PollDto, { nullable: true })
   poll?: PollDto;
+
+  @Field()
+  tags?: Tag[];
 }
 
 @InputType()
@@ -118,6 +134,7 @@ export class MessageDto {
 
   @Field(() => RichContentDto, { nullable: true })
   richContent?: RichContentDto;
+
 }
 
 // TODO Min - Max on limit

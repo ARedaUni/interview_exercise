@@ -21,9 +21,15 @@ class MockedUserCacheManagerService {
   }
 }
 
-const user_service = process.env.USER_SERVICE_URL ?? 'http://localhost:1080'
-  
-
+const user_service = process.env.USER_SERVICE_URL ?? 'http://localhost:1080' 
+/*
+replaced empty string with url
+since url is not sensitive data here(environment variable appears 
+to not exist even after trying dotenv to load them in main.ts or analysing 
+configuration.ts file and modifying it. 
+In a real scenario I would have just asked more senior engineers for help with 
+debugging the environment variable issue.)
+*/
 describe('UserService', () => {
   let service: IUserService;
 

@@ -411,6 +411,8 @@ export class ConversationLogic implements IConversationLogic {
     }
   }
 
+  
+
   private async sendPinMessageEvent(
     authenticatedUser: IAuthenticatedUser,
     conversationId: ObjectID,

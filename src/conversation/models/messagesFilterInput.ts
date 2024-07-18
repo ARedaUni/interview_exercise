@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsOptional } from 'class-validator';
+import { Tag } from './CreateChatConversation.dto';
 
 export type MessageGroupedByConversationOutput = {
   _id: string;
@@ -27,4 +28,11 @@ export class MessagesFilterInput {
   })
   @IsOptional()
   endDate: string;
+
+  @ApiProperty({
+    description: 'tag for the messages to be filtered',
+    required: false,
+  })
+  @IsOptional()
+  tags: Tag[]
 }

@@ -83,6 +83,17 @@ export class ConversationController {
     return this.conversationLogic.updateTags(conversationId, tags);
   }
 
+  // @Put(':messageId/tags')
+  // @ApiSecurity('X-API-KEY')
+  // @UseGuards(XApiKeyGuard)
+  // @ApiBody({ type: [Tag] })
+  // async updateMessageTags(
+  //   @Param('messageId') messageId: string,
+  //   @Body() tags: Tag[],
+  // ): Promise<any> { //change to proper type
+  //   return this.conversationLogic.updateMessageTags(messageId, tags);
+  // }
+
   @Post(':conversationId/member')
   @ApiSecurity('X-API-KEY')
   addMember(
@@ -174,12 +185,14 @@ export class ConversationController {
     @Query('conversationIds') conversationIds: string[],
     @Query('startDate') startDate: string,
     @Query('endDate') endDate: string,
+    @Query('tags') tags: Tag[],
     @Res({ passthrough: true }) res: Response,
   ): Promise<MessageGroupedByConversationOutput[]> {
     const messagesFilterInput: MessagesFilterInput = {
       startDate,
       endDate,
       conversationIds,
+      tags
     };
     if (!isDateDifferenceWithin7Days(startDate, endDate)) {
       res.status(403).send('Duration must be with in 7 days');
